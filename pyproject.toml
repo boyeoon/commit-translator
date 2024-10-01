@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "commit-translator"
+version = "0.1.0"
+description = "This script translates commit messages into English and formats them according to standard commit message conventions."
+authors = ["BOYEON JANG <uko010199@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+openai = "^1.51.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
