@@ -33,7 +33,7 @@
 
 ### 2. 리포지토리 클론
     
-- GitHub에서 이 리포지토리를 클론합니다.
+- `GitHub`에서 이 리포지토리를 클론합니다.
    
     ```bash
     git clone https://github.com/BoYeonJang/commit-translator.git
@@ -158,6 +158,7 @@ Do you want to proceed with the commit? (y/n)
 ```bash
 cmtl "バグ修正"
 ```
+
 출력:
 ```bash
 fix: fix a bug
