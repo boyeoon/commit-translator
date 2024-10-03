@@ -1,5 +1,6 @@
 import sys
 import os
+import yaml
 from openai import OpenAI
 from dotenv import load_dotenv
 
@@ -15,30 +16,20 @@ if api_key is None:
 # API 키를 사용하여 OpenAI 클라이언트 초기화
 client = OpenAI(api_key=api_key)
 
+def load_commit_types(filename):
+    with open(filename, 'r', encoding='utf-8') as file:
+        return yaml.safe_load(file)
+
+commit_types = load_commit_types('commit_types.yaml')
+
 def get_commit_type(message):
     message = message.lower()
-    
-    if "추가" in message or "追加" in message:
-        return "feat"
-    elif "수정" in message or "修正" in message:
-        return "fix"
-    elif "빌드" in message or "ビルド" in message:
-        return "build"
-    elif "자잘한" in message or "雑多な" in message:
-        return "chore"
-    elif "ci" in message:
-        return "ci"
-    elif "문서" in message or "ドキュメント" in message:
-        return "docs"
-    elif "스타일" in message or "スタイル" in message:
-        return "style"
-    elif "리팩토링" in message or "リファクタリング" in message:
-        return "refactor"
-    elif "테스트" in message or "テスト" in message:
-        return "test"
-    elif "성능" in message or "パフォーマンス" in message:
-        return "perf"
-    return "chore"
+
+    for commit_type, keywords in commit_types.items():
+        if any(keyword in message for keyword in keywords):
+            return commit_type
+
+    return "chore"  # 기본값
 
 def translate_to_english(message, api_key):
     message = message.replace("생성", "추가")
