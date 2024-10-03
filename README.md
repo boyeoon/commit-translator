@@ -13,7 +13,7 @@ This script translates commit messages written in Korean and Japanese into Engli
 ## Usage
 ### 1. Install Poetry
 
-- If Poetry is not installed, install it using the command below:
+- If `Poetry` is not installed, install it using the command below:
 
     ```bash
     curl -sSL https://install.python-poetry.org | python3 -
@@ -29,7 +29,7 @@ This script translates commit messages written in Korean and Japanese into Engli
 
 #### 1.1. If you don’t want to use Poetry
 
-- If you prefer not to install Poetry, you can install the openai and python-dotenv packages globally. Use the command below to install the packages:
+- If you prefer not to install `Poetry`, you can install the `openai` and `python-dotenv` packages globally. Use the command below to install the packages:
 
     ```bash
     pip install openai python-dotenv
@@ -37,7 +37,7 @@ This script translates commit messages written in Korean and Japanese into Engli
 
 ### 2. Clone the Repository
 
-- Clone this repository from GitHub.
+- Clone this repository from `GitHub`.
 
     ```bash
     git clone https://github.com/BoYeonJang/commit-translator.git
@@ -46,7 +46,7 @@ This script translates commit messages written in Korean and Japanese into Engli
 
 ### 3. Set Up Virtual Environment
 
-- Install the required packages using Poetry.
+- Install the required packages using `Poetry`.
 
     ```bash
     poetry install
@@ -54,7 +54,7 @@ This script translates commit messages written in Korean and Japanese into Engli
 
 ### 4. Set Up OpenAI API Key
 
-- Create a .env file in the project root directory and add your API key:
+- Create a `.env` file in the project root directory and add your API key:
 
     ```bash
     echo 'OPENAI_API_KEY="your_openai_api_key_here"' > .env
@@ -62,7 +62,7 @@ This script translates commit messages written in Korean and Japanese into Engli
 
 ### 5. Set Up zsh
 
-- Open your shell configuration file and add the cmtl function:
+- Open your shell configuration file and add the `cmtl` function:
 
     ```bash
     function cmtl() {
@@ -79,7 +79,7 @@ This script translates commit messages written in Korean and Japanese into Engli
     }
     ```
 
-- Replace /path/to/your/translate.py with the actual path to the script.
+- Replace `/path/to/your/translate.py` with the actual path to the script.
 
 #### 5.1 (Optional)
 
@@ -116,7 +116,7 @@ This script translates commit messages written in Korean and Japanese into Engli
 
 ### 6. Using the cmtl Command
 
-- You can now use the cmtl command to translate commit messages and commit. For example:
+- You can now use the `cmtl` command to translate commit messages and commit. For example:
 
     ```bash
     cmtl "Add component"
@@ -129,12 +129,12 @@ This script translates commit messages written in Korean and Japanese into Engli
     ```
 
 ## Installation
-To set up the script for global use, copy the cmtl command to /usr/local/bin using the command below.
+To set up the script for global use, copy the `cmtl` command to `/usr/local/bin` using the command below.
 
 ```bash
 sudo cp translate.py /usr/local/bin/cmtl
 ```
-You can now use the cmtl command directly in the terminal.
+You can now use the `cmtl` command directly in the terminal.
 
 #### (Optional)
 If you do not want to install:
