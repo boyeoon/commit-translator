@@ -25,7 +25,7 @@ This script translates commit messages written in Korean and Japanese into Engli
     export PATH="$HOME/.poetry/bin:$PATH"
     ```
 
-    For more details about Poetry, refer to the official documentation!
+    For more details about Poetry, refer to the [official documentation](https://python-poetry.org/docs/)!
 
 #### 1.1. If you don’t want to use Poetry
 
