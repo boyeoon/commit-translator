@@ -31,7 +31,7 @@ def get_commit_type(message):
 
     return "chore"  # 기본값
 
-def translate_to_english(message, api_key):
+def translate_commit_message(message):
     message = message.replace("생성", "추가")
     
     response = client.chat.completions.create(
@@ -44,7 +44,9 @@ def translate_to_english(message, api_key):
 
 if __name__ == "__main__":
     input_message = " ".join(sys.argv[1:])
+    # 커밋 유형 결정
     commit_type = get_commit_type(input_message).lower()
-    english_message = translate_to_english(input_message, api_key)
-    final_message = f"{commit_type}: {english_message.lower()}"
+    # 커밋 메시지 번역
+    translated_message = translate_commit_message(input_message)
+    final_message = f"{commit_type}: {translated_message.lower()}"
     print(final_message)
