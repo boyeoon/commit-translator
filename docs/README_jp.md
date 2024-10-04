@@ -50,10 +50,10 @@
 
 ### 4. OpenAI　APIキーの設定
     
-- プロジェクトのルートディレクトリに`.env`ファイルを作成し、APIキーを追加します。
+- `.env.example` ファイルの名前を `.env` に変更し、`your_openai_api_key_here` の部分を自分の OpenAI API キーに置き換えます:
 
     ```bash
-    echo 'OPENAI_API_KEY="your_openai_api_key_here"' > .env
+    OPENAI_API_KEY="your_openai_api_key_here"
     ```
 
 ### 5. グローバルコマンド設定

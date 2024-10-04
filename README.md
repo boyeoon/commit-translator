@@ -54,10 +54,10 @@ This script translates commit messages written in Korean and Japanese into Engli
 
 ### 4. Set Up OpenAI API Key
 
-- Create a `.env` file in the project root directory and add your API key:
+- Change the name of the `.env.example` file to `.env` and replace the `your_openai_api_key_here` part with your own OpenAI API key:
 
     ```bash
-    echo 'OPENAI_API_KEY="your_openai_api_key_here"' > .env
+    OPENAI_API_KEY="your_openai_api_key_here"
     ```
 
 ### 5. Global Command Configuration

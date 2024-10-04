@@ -50,10 +50,10 @@
 
 ### 4. OpenAI API 키 설정
     
-- 프로젝트 루트 디렉토리에 `.env` 파일을 생성하고, 그 안에 API 키를 추가합니다:
+- `.env.example` 파일의 이름을 `.env` 으로 변경하고, `your_openai_api_key_here` 부분을 자신의 OpenAI API 키로 변경합니다:
 
     ```bash
-    echo 'OPENAI_API_KEY="your_openai_api_key_here"' > .env
+    OPENAI_API_KEY="your_openai_api_key_here"
     ```
 
 ### 5. 전역 명령어 설정
