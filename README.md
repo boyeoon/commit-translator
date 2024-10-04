@@ -60,73 +60,59 @@ This script translates commit messages written in Korean and Japanese into Engli
     OPENAI_API_KEY="your_openai_api_key_here"
     ```
 
-### 5. Global Command Configuration
-#### 5.1 Script File Creation
+### 5. File Download and Setup
+#### 5.1. File Download:
 
-- Create a file named `cmtl` in the `/usr/local/bin/` path and add the following content:
+- Download the `cmtl` file using `curl`:
 
     ```bash
-    SCRIPT_DIR="/path/to/commit-translator"
-
-    WHITE="\033[1;37m"
-    CYAN="\033[1;36m"
-    RESET="\033[0m"
-
-    if [ "$#" -eq 0 ]; then
-        echo "Usage: cmtl \"commit message\""
-        exit 1
-    fi
-
-    message="$*"
-
-    commit_message=$(poetry run python "$SCRIPT_DIR/translate.py" "$message")
-
-    echo "Translated commit message: ${CYAN}$commit_message${RESET}"
-    echo -n "${WHITE}Do you want to proceed with the commit?${RESET} > ${CYAN}(y/n)${RESET} "
-
-    read -r response
-    if [[ "$response" == "y" ]]; then
-        git commit -m "$commit_message"
-        echo "commit successful!"
-    else
-        echo "commit canceled."
-    fi
+    curl -O https://gist.githubusercontent.com/BoYeonJang/a49de7f226f668a0cb1185fc808f42cf/raw/cc2a1f817d866ae7fdeed6af87ccbb8c5f6888dd/cmtl
     ```
 
-- Here, change `/path/to/commit-translator` to the absolute path of the cloned repository.
+#### 5.2. File Modification:
 
-#### 5.2 (Optional)
+- You need to modify the `SCRIPT_DIR` variable:
+
+    ```bash
+    vi cmtl
+    ```
+
+    ```bash
+    3 # =============== Please revise this section ===============
+    4 SCRIPT_DIR="/absolute/path/to/commit-translator"
+    5 # ==========================================================
+    ```
+
+- Here, replace `/absolute/path/to/commit-translator` with the absolute path to your cloned repository.
+
+#### 5.3. Grant Execution Permission and Move to System Path:
+
+- After granting execution permission, move the file to the `/usr/local/bin/` directory for global accessibility:
+
+    ```bash
+    chmod +x cmtl && sudo mv cmtl /usr/local/bin/
+    ```
+
+#### 5.4 (Optional)
 
 - To skip the prompt asking whether to execute the commit:
 
     ```bash
-    SCRIPT_DIR="/path/to/commit-translator"
-
-    CYAN="\033[1;36m"
-    RESET="\033[0m"
-
-    if [ "$#" -eq 0 ]; then
-        echo "Usage: cmtl \"commit message\""
-        exit 1
-    fi
-
-    message="$*"
-
-    commit_message=$(poetry run python "$SCRIPT_DIR/translate.py" "$message")
-
-    echo "Translated commit message: ${CYAN}$commit_message${RESET}"
-
-    # 커밋을 즉시 실행
-    git commit -m "$commit_message"
-    echo "commit successful!"
+    curl -O https://gist.githubusercontent.com/BoYeonJang/93a2d63ba8651a992f3e05e5475e91de/raw/a081a14d87981d9d3b46c667a27f5c565d628c9f/cmtl
     ```
 
-#### 5.3 Granting Execution Permission
-
-- Grant execution permission to the script:
+    ```bash
+    vi cmtl
+    ```
 
     ```bash
-    sudo chmod +x /usr/local/bin/cmtl
+    3 # =============== Please revise this section ===============
+    4 SCRIPT_DIR="/absolute/path/to/commit-translator"
+    5 # ==========================================================
+    ```
+
+    ```bash
+    chmod +x cmtl && sudo mv cmtl /usr/local/bin/
     ```
 
 ### 6. Using the cmtl Command

@@ -56,73 +56,59 @@
     OPENAI_API_KEY="your_openai_api_key_here"
     ```
 
-### 5. 전역 명령어 설정
-#### 5.1 스크립트 파일 생성
+### 5. 파일 다운로드 및 설정
+#### 5.1. 파일 다운로드:
 
-- `/usr/local/bin/` 경로에 `cmtl`라는 파일을 생성하고 아래 내용을 추가합니다:
+- `cmtl` 파일을 `curl`을 사용하여 다운로드합니다:
 
     ```bash
-    SCRIPT_DIR="/path/to/commit-translator"
-
-    WHITE="\033[1;37m"
-    CYAN="\033[1;36m"
-    RESET="\033[0m"
-
-    if [ "$#" -eq 0 ]; then
-        echo "Usage: cmtl \"commit message\""
-        exit 1
-    fi
-
-    message="$*"
-
-    commit_message=$(poetry run python "$SCRIPT_DIR/translate.py" "$message")
-
-    echo "Translated commit message: ${CYAN}$commit_message${RESET}"
-    echo -n "${WHITE}Do you want to proceed with the commit?${RESET} > ${CYAN}(y/n)${RESET} "
-
-    read -r response
-    if [[ "$response" == "y" ]]; then
-        git commit -m "$commit_message"
-        echo "commit successful!"
-    else
-        echo "commit canceled."
-    fi
+    curl -O https://gist.githubusercontent.com/BoYeonJang/a49de7f226f668a0cb1185fc808f42cf/raw/cc2a1f817d866ae7fdeed6af87ccbb8c5f6888dd/cmtl
     ```
 
-- 여기서 `/path/to/commit-translator`는 클론한 리포지토리의 절대 경로로 변경해야 합니다.
+#### 5.2. 파일 수정:
 
-#### 5.2 (옵션)
+- `SCRIPT_DIR` 변수를 수정해야 합니다:
+
+    ```bash
+    vi cmtl
+    ```
+
+    ```bash
+    3 # =============== Please revise this section ===============
+    4 SCRIPT_DIR="/absolute/path/to/commit-translator"
+    5 # ==========================================================
+    ```
+
+- 여기서 `/absolute/path/to/commit-translator`는 클론한 리포지토리의 절대 경로로 변경해야 합니다.
+
+#### 5.3. 실행 권한 부여 및 시스템 경로로 이동:
+
+- 실행 권한을 부여한 후, 파일을 `/usr/local/bin/` 디렉토리로 이동하여 전역에서 사용할 수 있도록 설정합니다:
+
+    ```bash
+    chmod +x cmtl && sudo mv cmtl /usr/local/bin/
+    ```
+
+#### 5.4 (옵션)
 
 - 커밋을 실행할 것인지 묻는 메시지를 무시하려면:
 
     ```bash
-    SCRIPT_DIR="/path/to/commit-translator"
-
-    CYAN="\033[1;36m"
-    RESET="\033[0m"
-
-    if [ "$#" -eq 0 ]; then
-        echo "Usage: cmtl \"commit message\""
-        exit 1
-    fi
-
-    message="$*"
-
-    commit_message=$(poetry run python "$SCRIPT_DIR/translate.py" "$message")
-
-    echo "Translated commit message: ${CYAN}$commit_message${RESET}"
-
-    # 커밋을 즉시 실행
-    git commit -m "$commit_message"
-    echo "commit successful!"
+    curl -O https://gist.githubusercontent.com/BoYeonJang/93a2d63ba8651a992f3e05e5475e91de/raw/a081a14d87981d9d3b46c667a27f5c565d628c9f/cmtl
     ```
 
-#### 5.3 실행 권한 부여
-
-- 스크립트에 실행 권한을 부여합니다:
+    ```bash
+    vi cmtl
+    ```
 
     ```bash
-    sudo chmod +x /usr/local/bin/cmtl
+    3 # =============== Please revise this section ===============
+    4 SCRIPT_DIR="/absolute/path/to/commit-translator"
+    5 # ==========================================================
+    ```
+
+    ```bash
+    chmod +x cmtl && sudo mv cmtl /usr/local/bin/
     ```
 
 <!-- ### 5. zsh 설정
@@ -226,3 +212,12 @@ Do you want to proceed with the commit? (y/n)
 
 ## 문의
 궁금한 사항이나 문제가 발생할 경우, 이슈를 통해 문의해 주세요.
+
+# 파일 다운로드
+curl -O https://gist.githubusercontent.com/BoYeonJang/a49de7f226f668a0cb1185fc808f42cf/raw/cc2a1f817d866ae7fdeed6af87ccbb8c5f6888dd/cmtl
+
+# 실행 권한 부여
+chmod +x cmtl
+
+# 시스템 경로로 이동
+sudo mv cmtl /usr/local/bin/

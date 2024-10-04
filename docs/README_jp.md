@@ -56,73 +56,59 @@
     OPENAI_API_KEY="your_openai_api_key_here"
     ```
 
-### 5. グローバルコマンド設定
-#### 5.1 スクリプトファイルの作成
+### 5. ファイルのダウンロードと設定
+#### 5.1. ファイルのダウンロード:
 
-- `/usr/local/bin/` パスに `cmtl` という名前のファイルを作成し、以下の内容を追加します:
+- `curl`を使用して`cmtl`ファイルをダウンロードします:
 
     ```bash
-    SCRIPT_DIR="/path/to/commit-translator"
-
-    WHITE="\033[1;37m"
-    CYAN="\033[1;36m"
-    RESET="\033[0m"
-
-    if [ "$#" -eq 0 ]; then
-        echo "Usage: cmtl \"commit message\""
-        exit 1
-    fi
-
-    message="$*"
-
-    commit_message=$(poetry run python "$SCRIPT_DIR/translate.py" "$message")
-
-    echo "Translated commit message: ${CYAN}$commit_message${RESET}"
-    echo -n "${WHITE}Do you want to proceed with the commit?${RESET} > ${CYAN}(y/n)${RESET} "
-
-    read -r response
-    if [[ "$response" == "y" ]]; then
-        git commit -m "$commit_message"
-        echo "commit successful!"
-    else
-        echo "commit canceled."
-    fi
+    curl -O https://gist.githubusercontent.com/BoYeonJang/a49de7f226f668a0cb1185fc808f42cf/raw/cc2a1f817d866ae7fdeed6af87ccbb8c5f6888dd/cmtl
     ```
 
-- ここで、`/path/to/commit-translator` はクローンしたリポジトリの絶対パスに変更してください。
+#### 5.2. ファイルの修正:
 
-#### 5.2 (オプション)
+- `SCRIPT_DIR`変数を修正する必要があります:
+
+    ```bash
+    vi cmtl
+    ```
+
+    ```bash
+    3 # =============== Please revise this section ===============
+    4 SCRIPT_DIR="/absolute/path/to/commit-translator"
+    5 # ==========================================================
+    ```
+
+- ここで、`/absolute/path/to/commit-translator`をクローンしたリポジトリの絶対パスに変更します。
+
+#### 5.3. 実行権限を付与し、システムパスに移動:
+
+- 実行権限を付与した後、ファイルを`/usr/local/bin/`ディレクトリに移動して全体で使用できるように設定します:
+
+    ```bash
+    chmod +x cmtl && sudo mv cmtl /usr/local/bin/
+    ```
+
+#### 5.4 (オプション)
 
 - コミットを実行するかどうかのプロンプトをスキップするには:
 
     ```bash
-    SCRIPT_DIR="/path/to/commit-translator"
-
-    CYAN="\033[1;36m"
-    RESET="\033[0m"
-
-    if [ "$#" -eq 0 ]; then
-        echo "Usage: cmtl \"commit message\""
-        exit 1
-    fi
-
-    message="$*"
-
-    commit_message=$(poetry run python "$SCRIPT_DIR/translate.py" "$message")
-
-    echo "Translated commit message: ${CYAN}$commit_message${RESET}"
-
-    # 커밋을 즉시 실행
-    git commit -m "$commit_message"
-    echo "commit successful!"
+    curl -O https://gist.githubusercontent.com/BoYeonJang/93a2d63ba8651a992f3e05e5475e91de/raw/a081a14d87981d9d3b46c667a27f5c565d628c9f/cmtl
     ```
 
-#### 5.3 実行権限の付与
-
-- スクリプトに実行権限を付与します:
+    ```bash
+    vi cmtl
+    ```
 
     ```bash
-    sudo chmod +x /usr/local/bin/cmtl
+    3 # =============== Please revise this section ===============
+    4 SCRIPT_DIR="/absolute/path/to/commit-translator"
+    5 # ==========================================================
+    ```
+
+    ```bash
+    chmod +x cmtl && sudo mv cmtl /usr/local/bin/
     ```
 
 ### 6. cmtlコマンドの使用
