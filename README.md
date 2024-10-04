@@ -120,7 +120,7 @@ This script translates commit messages written in Korean and Japanese into Engli
 - You can now use the `cmtl` command to translate commit messages and commit. For example:
 
     ```bash
-    cmtl "Add component"
+    cmtl "컴포넌트 추가"
     ```
 
 - If you enter in Japanese:
@@ -128,21 +128,6 @@ This script translates commit messages written in Korean and Japanese into Engli
     ```bash
     cmtl "コンポーネント追加"
     ```
-
-## Installation
-To set up the script for global use, copy the `cmtl` command to `/usr/local/bin` using the command below.
-
-```bash
-sudo cp translate.py /usr/local/bin/cmtl
-```
-You can now use the `cmtl` command directly in the terminal.
-
-#### (Optional)
-If you do not want to install:
-
-```bash
-python translate.py "commit message"
-```
 
 ## Example
 Here’s a simple example of using the script:
