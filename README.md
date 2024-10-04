@@ -66,7 +66,7 @@ This script translates commit messages written in Korean and Japanese into Engli
 - Download the `cmtl` file using `curl`:
 
     ```bash
-    curl -O https://gist.githubusercontent.com/BoYeonJang/a49de7f226f668a0cb1185fc808f42cf/raw/cc2a1f817d866ae7fdeed6af87ccbb8c5f6888dd/cmtl
+    curl -O https://gist.githubusercontent.com/BoYeonJang/a49de7f226f668a0cb1185fc808f42cf/raw/6638adae14589273e095cfab270db04c00793489/cmtl
     ```
 
 #### 5.2. File Modification:
