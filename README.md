@@ -60,58 +60,73 @@ This script translates commit messages written in Korean and Japanese into Engli
     echo 'OPENAI_API_KEY="your_openai_api_key_here"' > .env
     ```
 
-### 5. Set Up zsh
+### 5. Global Command Configuration
+#### 5.1 Script File Creation
 
-- Open your shell configuration file and add the `cmtl` function:
+- Create a file named `cmtl` in the `/usr/local/bin/` path and add the following content:
 
     ```bash
-    function cmtl() {
-        if [ "$#" -eq 0 ]; then
-            echo "Usage: cmtl \"commit message\""
-            return 1
-        fi
-        
-        message="$*"
-        
-        commit_message=$(poetry run python /path/to/your/translate.py "$message")
-        
+    SCRIPT_DIR="/path/to/commit-translator"
+
+    WHITE="\033[1;37m"
+    CYAN="\033[1;36m"
+    RESET="\033[0m"
+
+    if [ "$#" -eq 0 ]; then
+        echo "Usage: cmtl \"commit message\""
+        exit 1
+    fi
+
+    message="$*"
+
+    commit_message=$(poetry run python "$SCRIPT_DIR/translate.py" "$message")
+
+    echo "Translated commit message: ${CYAN}$commit_message${RESET}"
+    echo -n "${WHITE}Do you want to proceed with the commit?${RESET} > ${CYAN}(y/n)${RESET} "
+
+    read -r response
+    if [[ "$response" == "y" ]]; then
         git commit -m "$commit_message"
-    }
+        echo "commit successful!"
+    else
+        echo "commit canceled."
+    fi
     ```
 
-- Change the `/path/to/your/translate.py` part to the absolute path of the cloned repository.
+- Here, change `/path/to/commit-translator` to the absolute path of the cloned repository.
 
-#### 5.1 (Optional)
+#### 5.2 (Optional)
 
-- If you want to cancel before the commit is made:
+- To skip the prompt asking whether to execute the commit:
 
     ```bash
-    function cmtl() {
-        if [ "$#" -eq 0 ]; then
-            echo "Usage: cmtl \"commit message\""
-            return 1
-        fi
-        
-        message="$*"
+    SCRIPT_DIR="/path/to/commit-translator"
 
-        commit_message=$(poetry run python /path/to/your/translate.py "$message")
-        
-        echo "Translated commit message: $commit_message"
-        echo "Do you want to proceed with the commit? (y/n)"
-        
-        read -r response
-        if [[ "$response" == "y" ]]; then
-            git commit -m "$commit_message"
-            echo "commit successful!"
-        else
-            echo "commit canceled."
-        fi
-    }
+    CYAN="\033[1;36m"
+    RESET="\033[0m"
+
+    if [ "$#" -eq 0 ]; then
+        echo "Usage: cmtl \"commit message\""
+        exit 1
+    fi
+
+    message="$*"
+
+    commit_message=$(poetry run python "$SCRIPT_DIR/translate.py" "$message")
+
+    echo "Translated commit message: ${CYAN}$commit_message${RESET}"
+
+    # 커밋을 즉시 실행
+    git commit -m "$commit_message"
+    echo "commit successful!"
     ```
 
-- Save the changes:
+#### 5.3 Granting Execution Permission
+
+- Grant execution permission to the script:
+
     ```bash
-    source ~/.zshrc
+    sudo chmod +x /usr/local/bin/cmtl
     ```
 
 ### 6. Using the cmtl Command

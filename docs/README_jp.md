@@ -2,7 +2,7 @@
 このスクリプトは、韓国語や日本語で書かれたコミットメッセージを英語に翻訳し、一般的なコミット規則に従ってフォーマットします。
 
 ## 主な機能
-- **言語サポート**: 韓国語や日本語で書かれたコミットメッセージを英語に翻訳します。
+- **言語サポート**: 日本語や韓国語で書かれたコミットメッセージを英語に翻訳します。
 - コミットタイプの自動検出**: 入力されたメッセージに基づいてコミットタイプ（feat、fix、choreなど）を自動的に決定します。
 - **確認プロンプト**: 翻訳されたメッセージを確認した後、ユーザーはコミットを進めるかどうかを選択できます。
 
@@ -25,7 +25,7 @@
 
 #### 1.1. Poetryを使用しない場合
 
-- `Poetry`をインストールしたくない場合は、`openai`と`python-dotenv`パッケージをグローバルにインストールできます。以下のコマンドを使用してパッケージをインストールします：
+- `Poetry`をインストールしたくない場合は、`openai`と`python-dotenv`パッケージをグローバルにインストールできます。以下のコマンドを使用してパッケージをインストールします:
 
     ```bash
     pip install openai python-dotenv
@@ -56,70 +56,84 @@
     echo 'OPENAI_API_KEY="your_openai_api_key_here"' > .env
     ```
 
-### 5. zshの設定
+### 5. グローバルコマンド設定
+#### 5.1 スクリプトファイルの作成
 
-- シェル設定ファイルを開き、`cmtl`関数を追加します。
+- `/usr/local/bin/` パスに `cmtl` という名前のファイルを作成し、以下の内容を追加します:
 
     ```bash
-    function cmtl() {
-        if [ "$#" -eq 0 ]; then
-            echo "Usage: cmtl \"commit message\""
-            return 1
-        fi
-        
-        message="$*"
-        
-        commit_message=$(poetry run python /path/to/your/translate.py "$message")
-        
+    SCRIPT_DIR="/path/to/commit-translator"
+
+    WHITE="\033[1;37m"
+    CYAN="\033[1;36m"
+    RESET="\033[0m"
+
+    if [ "$#" -eq 0 ]; then
+        echo "Usage: cmtl \"commit message\""
+        exit 1
+    fi
+
+    message="$*"
+
+    commit_message=$(poetry run python "$SCRIPT_DIR/translate.py" "$message")
+
+    echo "Translated commit message: ${CYAN}$commit_message${RESET}"
+    echo -n "${WHITE}Do you want to proceed with the commit?${RESET} > ${CYAN}(y/n)${RESET} "
+
+    read -r response
+    if [[ "$response" == "y" ]]; then
         git commit -m "$commit_message"
-    }
+        echo "commit successful!"
+    else
+        echo "commit canceled."
+    fi
     ```
 
-- `/path/to/your/translate.py`の部分は、クローンしたリポジトリの絶対パスに変更してください。
+- ここで、`/path/to/commit-translator` はクローンしたリポジトリの絶対パスに変更してください。
 
-#### 5.1 (オプション)
+#### 5.2 (オプション)
 
-- コミットが行われる前にキャンセルしたい場合は：
+- コミットを実行するかどうかのプロンプトをスキップするには:
 
     ```bash
-    function cmtl() {
-        if [ "$#" -eq 0 ]; then
-            echo "Usage: cmtl \"commit message\""
-            return 1
-        fi
-        
-        message="$*"
+    SCRIPT_DIR="/path/to/commit-translator"
 
-        commit_message=$(poetry run python /path/to/your/translate.py "$message")
-        
-        echo "Translated commit message: $commit_message"
-        echo "Do you want to proceed with the commit? (y/n)"
-        
-        read -r response
-        if [[ "$response" == "y" ]]; then
-            git commit -m "$commit_message"
-            echo "commit successful!"
-        else
-            echo "commit canceled."
-        fi
-    }
+    CYAN="\033[1;36m"
+    RESET="\033[0m"
+
+    if [ "$#" -eq 0 ]; then
+        echo "Usage: cmtl \"commit message\""
+        exit 1
+    fi
+
+    message="$*"
+
+    commit_message=$(poetry run python "$SCRIPT_DIR/translate.py" "$message")
+
+    echo "Translated commit message: ${CYAN}$commit_message${RESET}"
+
+    # 커밋을 즉시 실행
+    git commit -m "$commit_message"
+    echo "commit successful!"
     ```
-    
 
-- 変更を保存します：
+#### 5.3 実行権限の付与
+
+- スクリプトに実行権限を付与します:
+
     ```bash
-    source ~/.zshrc
+    sudo chmod +x /usr/local/bin/cmtl
     ```
 
 ### 6. cmtlコマンドの使用
 
-- これで`cmtl`マンドを使用してコミットメッセージを翻訳し、コミットできます。例えば：
+- これで`cmtl`マンドを使用してコミットメッセージを翻訳し、コミットできます。例えば:
 
     ```bash
     cmtl "コンポーネント追加"
     ```
 
-- 韓国語で入力する場合：
+- 韓国語で入力する場合:
 
     ```bash
     cmtl "컴포넌트 추가"
@@ -135,31 +149,31 @@ sudo cp translate.py /usr/local/bin/cmtl
 
 #### (オプション)
 
-インストールしたくない場合：
+インストールしたくない場合:
 ```bash
 python translate.py "コミットメッセージ"
 ```
 
 ## 例
-スクリプトを使用する簡単な例です：
+スクリプトを使用する簡単な例です:
 
-日本語メッセージ入力：
+日本語メッセージ入力:
 ```bash
 cmtl "バグ修正"
 ```
 
-출력:
+出力:
 ```bash
 fix: fix a bug
 Do you want to proceed with the commit? (y/n)
 ```
 
-韓国語メッセージ入力：
+韓国語メッセージ入力:
 ```bash
 cmtl "버그 수정"
 ```
 
-出力：
+出力:
 ```bash
 fix: fix a bug
 Do you want to proceed with the commit? (y/n)

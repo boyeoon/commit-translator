@@ -56,7 +56,76 @@
     echo 'OPENAI_API_KEY="your_openai_api_key_here"' > .env
     ```
 
-### 5. zsh 설정
+### 5. 전역 명령어 설정
+#### 5.1 스크립트 파일 생성
+
+- `/usr/local/bin/` 경로에 `cmtl`라는 파일을 생성하고 아래 내용을 추가합니다:
+
+    ```bash
+    SCRIPT_DIR="/path/to/commit-translator"
+
+    WHITE="\033[1;37m"
+    CYAN="\033[1;36m"
+    RESET="\033[0m"
+
+    if [ "$#" -eq 0 ]; then
+        echo "Usage: cmtl \"commit message\""
+        exit 1
+    fi
+
+    message="$*"
+
+    commit_message=$(poetry run python "$SCRIPT_DIR/translate.py" "$message")
+
+    echo "Translated commit message: ${CYAN}$commit_message${RESET}"
+    echo -n "${WHITE}Do you want to proceed with the commit?${RESET} > ${CYAN}(y/n)${RESET} "
+
+    read -r response
+    if [[ "$response" == "y" ]]; then
+        git commit -m "$commit_message"
+        echo "commit successful!"
+    else
+        echo "commit canceled."
+    fi
+    ```
+
+- 여기서 `/path/to/commit-translator`는 클론한 리포지토리의 절대 경로로 변경해야 합니다.
+
+#### 5.2 (옵션)
+
+- 커밋을 실행할 것인지 묻는 메시지를 무시하려면:
+
+    ```bash
+    SCRIPT_DIR="/path/to/commit-translator"
+
+    CYAN="\033[1;36m"
+    RESET="\033[0m"
+
+    if [ "$#" -eq 0 ]; then
+        echo "Usage: cmtl \"commit message\""
+        exit 1
+    fi
+
+    message="$*"
+
+    commit_message=$(poetry run python "$SCRIPT_DIR/translate.py" "$message")
+
+    echo "Translated commit message: ${CYAN}$commit_message${RESET}"
+
+    # 커밋을 즉시 실행
+    git commit -m "$commit_message"
+    echo "commit successful!"
+    ```
+
+#### 5.3 실행 권한 부여
+
+- 스크립트에 실행 권한을 부여합니다:
+
+    ```bash
+    sudo chmod +x /usr/local/bin/cmtl
+    ```
+
+<!-- ### 5. zsh 설정
 
 - 셸 설정 파일을 열어 `cmtl` 함수를 추가합니다:
 
@@ -105,11 +174,10 @@
     }
     ```
     
-
 - 변경사항 저장:
     ```bash
     source ~/.zshrc
-    ```
+    ``` -->
 
 ### 6. cmtl 명령어 사용
 
@@ -124,21 +192,6 @@
     ```bash
     cmtl "コンポーネント追加"
     ```
-
-## 설치 방법
-이 스크립트를 전역적으로 사용할 수 있도록 설정하려면, 아래 명령어를 사용하여 `cmtl` 명령어를 `/usr/local/bin`에 복사합니다.
-
-```bash
-sudo cp translate.py /usr/local/bin/cmtl
-```
-이제 터미널에서 `cmtl` 명령어를 직접 사용할 수 있습니다.
-
-#### (옵션)
-
-설치하고 싶지 않다면:
-```bash
-python translate.py "커밋 메시지"
-```
 
 ## 예제
 아래는 스크립트를 사용하는 간단한 예제입니다:
