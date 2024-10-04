@@ -37,7 +37,7 @@ def translate_commit_message(message):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "user", "content": f"Please translate the following message to English: {message}"}
+            {"role": "user", "content": f"Translate to English and create GitHub commit message for: {message}"}
         ]
     )
     return response.choices[0].message.content
