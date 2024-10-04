@@ -75,7 +75,7 @@
     }
     ```
 
-- `/path/to/your/translate.py` 부분은 실제 스크립트의 경로로 변경하세요.
+- `/path/to/your/translate.py` 부분은 클론한 리포지토리의 절대 경로로 변경하세요.
 
 #### 5.1 (옵션)
 

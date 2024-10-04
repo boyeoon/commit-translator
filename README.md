@@ -79,7 +79,7 @@ This script translates commit messages written in Korean and Japanese into Engli
     }
     ```
 
-- Replace `/path/to/your/translate.py` with the actual path to the script.
+- Change the `/path/to/your/translate.py` part to the absolute path of the cloned repository.
 
 #### 5.1 (Optional)
 
